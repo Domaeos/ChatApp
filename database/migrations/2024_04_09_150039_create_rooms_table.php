@@ -16,7 +16,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->foreignIdFor(User::class, 'owner_id');
+            $table->foreignIdFor(User::class)->constrained();
             $table->timestamps();
             $table->boolean('private');
         });
