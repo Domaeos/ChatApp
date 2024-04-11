@@ -3,7 +3,8 @@ import CreateRoomForm from "@/Components/CreateRoomForm";
 import { Link } from "@inertiajs/react";
 import { Head } from "@inertiajs/react";
 
-export default function Index({ auth, rooms }) {
+export default function Index({ auth, rooms, request }) {
+    console.log(request);
     rooms && console.log(rooms);
     return (
         <AuthenticatedLayout user={auth.user}>

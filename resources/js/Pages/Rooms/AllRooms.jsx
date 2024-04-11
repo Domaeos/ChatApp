@@ -6,12 +6,14 @@ import { Button } from "react-bootstrap";
 
 export default function AllRooms({ auth, rooms }) {
     const [showPopup, setShowPopup] = useState(false);
-    console.log(rooms);
+    const [currentSelection, setCurrentSelection] = useState({});
+
     return (
         <>
             <AuthenticatedLayout user={auth.user}>
                 <Head title="Find a room" />
                 <PopupJoinRoom
+                    room={currentSelection}
                     show={showPopup}
                     onHide={() => setShowPopup(false)}
                 />
@@ -24,7 +26,10 @@ export default function AllRooms({ auth, rooms }) {
                                     <li key={`${index}-${room.name}`}>
                                         {room.name}: {room.description}
                                         <Button
-                                            onClick={() => setShowPopup(true)}
+                                            onClick={() => {
+                                                setCurrentSelection(room);
+                                                setShowPopup(true);
+                                            }}
                                         >
                                             Show Details
                                         </Button>

@@ -30,6 +30,10 @@ Route::get('rooms/myrooms', [RoomController::class, 'myrooms'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.myrooms');
 
+Route::post('rooms/join', [RoomController::class, 'join'])
+->middleware(['auth', 'verified'])
+->name('rooms.join');
+
 Route::get('rooms/all', [RoomController::class, 'all'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.all');

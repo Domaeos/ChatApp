@@ -1,7 +1,24 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { router, useForm } from "@inertiajs/react";
+import { useEffect, useState } from "react";
 
 export default function PopupJoinRoom(props) {
+    const [data, setData] = useState({});
+    const [submitted, setSubmitted] = useState(false);
+
+    useEffect(() => {
+        setData(() => {
+            return { room_id: props.room.id };
+        });
+    }, [props]);
+
+    function handleJoin(e) {
+        e.preventDefault();
+        setSubmitted(true);
+        console.log(data);
+        router.post(route("rooms.join", data));
+    }
     return (
         <Modal
             {...props}
@@ -11,19 +28,16 @@ export default function PopupJoinRoom(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    Modal heading
+                    {props.room.name}
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <h4>Centered Modal</h4>
-                <p>
-                    Cras mattis consectetur purus sit amet fermentum. Cras justo
-                    odio, dapibus ac facilisis in, egestas eget quam. Morbi leo
-                    risus, porta ac consectetur ac, vestibulum at eros.
-                </p>
+                <p>{props.room.description}</p>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={props.onHide}>Close</Button>
+                <Button disabled={submitted} onClick={handleJoin}>
+                    Join room
+                </Button>
             </Modal.Footer>
         </Modal>
     );

@@ -19,4 +19,8 @@ class Room extends Model
     public function moderators() {
         return $this->hasManyThrough(User::class, Moderator::class);
     }
+    public function owner() {
+        return $this->hasOne(User::class);
+    }
 }
+    

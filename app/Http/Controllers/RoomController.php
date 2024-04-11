@@ -65,7 +65,8 @@ class RoomController extends Controller
     // Return all rooms
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Room::withCount(['users'])->select('name', 'description')->where('private', false)->get(),
+            'rooms' => Room::select('name', 'description', 'id')->where('private', false)->get(),
+            // 'rooms' => Room::withCount(['users'])->select('name', 'description')->where('private', false)->get(),
         ]);
     }
     /**
@@ -85,7 +86,20 @@ class RoomController extends Controller
             'messages' => Message::latest()->limit(200)->get(),
         ]);
     }
-
+    
+    public function join(Request $request) {
+        $joinId = $request->input('room_id');
+        // Check room isnt private
+        // Check user hasnt already joined
+        // Simple check can join and room shows in my rooms for now:
+        $newMembership = new Member([
+            'user_id' => $request->user()->id,
+            'room_id' => $joinId,
+        ]);
+        $newMembership->save();
+        // Provide visual feedback later and reload all rooms page/partial reload?
+        return redirect(route('rooms.index'));
+    }
     /**
      * Show the form for editing the specified resource.
      */

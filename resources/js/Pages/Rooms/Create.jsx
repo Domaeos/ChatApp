@@ -3,8 +3,6 @@ import { Head } from "@inertiajs/react";
 import CreateRoomForm from "@/Components/CreateRoomForm";
 
 export default function AllRooms({ auth, rooms, error }) {
-    console.log(rooms);
-    console.log(error);
     return (
         <>
             <AuthenticatedLayout user={auth.user}>
