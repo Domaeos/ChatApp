@@ -47,8 +47,8 @@ class RoomController extends Controller
             $newRoom = $request->user()->rooms()->create(array_merge($validated, $userInfo));
 
             $newModerates = new Moderator([
-            '   user_id' => $request->user()->id,
-            '   room_id' => $newRoom->id,
+                'user_id' => $request->user()->id,
+                'room_id' => $newRoom->id,
             ]);
             $newModerates->save();
 
@@ -65,7 +65,7 @@ class RoomController extends Controller
     // Return all rooms
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Room::select('name', 'description')->where('private', false)->get(),
+            'rooms' => Room::withCount(['users'])->select('name', 'description')->where('private', false)->get(),
         ]);
     }
     /**
