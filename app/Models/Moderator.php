@@ -9,7 +9,16 @@ class Moderator extends Model
 {
     use HasFactory;
 
+    public $timestamps = false;
+
+    protected $fillable = [
+        'user_id', 'room_id'
+    ];
+
     public function users() {
         return $this->hasMany(User::class);
+    }
+    public function rooms() {
+        return $this->hasMany(Room::class);
     }
 }

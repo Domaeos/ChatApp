@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RoomController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -24,6 +25,20 @@ Route::get('/', function () {
         'phpVersion' => PHP_VERSION,
     ]);
 });
+
+Route::get('rooms/myrooms', [RoomController::class, 'myrooms'])
+->middleware(['auth', 'verified'])
+->name('rooms.myrooms');
+
+Route::get('rooms/all', [RoomController::class, 'myrooms'])
+->middleware(['auth', 'verified'])
+->name('rooms.all');
+
+
+Route::resource('rooms', RoomController::class)
+->only(['index', 'store', 'show', 'create'])
+->middleware(['auth', 'verified']);
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

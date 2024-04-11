@@ -9,10 +9,14 @@ class Room extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name', 'description', 'private'
+    ];
+    
     public function users() {
         return $this->hasMany(User::class);
     }
     public function moderators() {
-        return $this->hasMany(Moderator::class);
+        return $this->hasManyThrough(User::class, Moderator::class);
     }
 }

@@ -2,17 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Moderator;
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redis;
+use Inertia\Inertia;
 
 class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return Inertia::render('Rooms/Index');
     }
 
     /**
@@ -27,16 +30,43 @@ class RoomController extends Controller
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
-    {
-        //
+    {   
+        // Add check later for app settings whether anyone can make a room or not
+        
+        $validated = $request->validate([
+            'name' => 'string|min:10|max:50|required',
+            'description' => 'string|min:10|max:250|required',
+            'private' => 'boolean'
+        ]);
+        
+        $newRoom = $request->user()->rooms()->create($validated);
+        $newModerates = new Moderator([
+            'user_id' => $request->user()->id,
+            'room_id' => $newRoom->id,
+        ]);
+        $newModerates->save();
+
+        return redirect(route('rooms.index'));
     }
 
+    // Return all rooms
+    public function all(Request $request) {
+        return Inertia::render('Rooms/AllRooms', [
+            'rooms' => Room::all(),
+        ]);
+    }
     /**
      * Display the specified resource.
      */
-    public function show(Room $room)
+    public function myrooms(Request $request)
     {
-        //
+        return Inertia::render('Rooms/Index', [
+            'rooms' => $request->user()->rooms()->get(),
+        ]);
+    }
+
+    public function show(Room $room) {
+
     }
 
     /**
