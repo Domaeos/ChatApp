@@ -30,7 +30,7 @@ Route::get('rooms/myrooms', [RoomController::class, 'myrooms'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.myrooms');
 
-Route::get('rooms/all', [RoomController::class, 'myrooms'])
+Route::get('rooms/all', [RoomController::class, 'all'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.all');
 

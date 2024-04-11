@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Message;
 use App\Models\Moderator;
 use App\Models\Room;
 use Illuminate\Http\Request;
@@ -23,7 +24,7 @@ class RoomController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Rooms/Create');
     }
 
     /**
@@ -52,7 +53,7 @@ class RoomController extends Controller
     // Return all rooms
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Room::all(),
+            'rooms' => Room::select('name', 'description')->where('private', false)->get(),
         ]);
     }
     /**
@@ -66,7 +67,11 @@ class RoomController extends Controller
     }
 
     public function show(Room $room) {
-
+        // add events for new messages in a room
+        // Chunk or cursor for a lot of potential messages?
+        return Inertia::render('Rooms/Chat', [
+            'messages' => Message::latest()->limit(200)->get(),
+        ]);
     }
 
     /**
