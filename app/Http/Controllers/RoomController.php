@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Member;
 use App\Models\Message;
 use App\Models\Moderator;
 use App\Models\Room;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
@@ -33,20 +35,30 @@ class RoomController extends Controller
     public function store(Request $request)
     {   
         // Add check later for app settings whether anyone can make a room or not
-        
         $validated = $request->validate([
             'name' => 'string|min:10|max:50|required',
             'description' => 'string|min:10|max:250|required',
             'private' => 'boolean'
         ]);
         
-        $newRoom = $request->user()->rooms()->create($validated);
-        $newModerates = new Moderator([
-            'user_id' => $request->user()->id,
-            'room_id' => $newRoom->id,
-        ]);
-        $newModerates->save();
+        if ($validated) {
+        
+            $userInfo = ['user_id' => $request->user()->id];
+            $newRoom = $request->user()->rooms()->create(array_merge($validated, $userInfo));
 
+            $newModerates = new Moderator([
+            '   user_id' => $request->user()->id,
+            '   room_id' => $newRoom->id,
+            ]);
+            $newModerates->save();
+
+            $newMember = new Member([
+                'user_id' => $request->user()->id,
+                'room_id' => $newRoom->id,
+            ]);
+
+            $newMember->save();
+        }
         return redirect(route('rooms.index'));
     }
 

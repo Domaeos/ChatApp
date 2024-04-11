@@ -9,9 +9,9 @@ export default function AllRooms({ auth, rooms }) {
                 <div className="flex-1 justify-items-center justify-content-center">
                     {/* <input type="text"></input> */}
                     <ul>
-                        {rooms.map((room) => {
+                        {rooms.map((room, index) => {
                             return (
-                                <li>
+                                <li key={`${index}-${room.name}`}>
                                     {room.name}: {room.description}
                                 </li>
                             );

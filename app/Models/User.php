@@ -48,7 +48,12 @@ class User extends Authenticatable
     ];
 
     public function rooms() {
-        return $this->hasMany(Room::class);
+        return $this->hasManyThrough(
+            Room::class,
+            Member::class,
+            'user_id',
+            'id'
+        );
     }
 
     public function messages() {

@@ -10,11 +10,11 @@ class Room extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'description', 'private'
+        'name', 'description', 'private', 'user_id'
     ];
     
     public function users() {
-        return $this->hasMany(User::class);
+        return $this->hasManyThrough(User::class, Member::class);
     }
     public function moderators() {
         return $this->hasManyThrough(User::class, Moderator::class);
