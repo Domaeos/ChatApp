@@ -3,10 +3,15 @@ import { Head } from "@inertiajs/react";
 import { useEffect, useState } from "react";
 import PopupJoinRoom from "@/Components/PopupJoinRoom";
 import { Button } from "react-bootstrap";
+import { router } from "@inertiajs/react";
 
 export default function AllRooms({ auth, rooms }) {
     const [showPopup, setShowPopup] = useState(false);
     const [currentSelection, setCurrentSelection] = useState({});
+
+    useEffect(() => {
+        router.reload({ only: ["rooms"] });
+    }, []);
 
     return (
         <>
@@ -17,27 +22,31 @@ export default function AllRooms({ auth, rooms }) {
                     show={showPopup}
                     onHide={() => setShowPopup(false)}
                 />
-                <div className="flex-1 justify-items-center justify-content-center">
-                    {/* <input type="text"></input> */}
-                    <ul>
-                        {rooms &&
-                            rooms.map((room, index) => {
-                                return (
-                                    <li key={`${index}-${room.name}`}>
-                                        {room.name}: {room.description}
-                                        <Button
-                                            onClick={() => {
-                                                setCurrentSelection(room);
-                                                setShowPopup(true);
-                                            }}
-                                        >
-                                            Show Details
-                                        </Button>
-                                    </li>
-                                );
-                            })}
-                    </ul>
-                </div>
+                {/* // Replace with loading component later */}
+                {!rooms && <h1>Loading rooms..</h1>}
+                {rooms && (
+                    <div className="flex-1 justify-items-center justify-content-center">
+                        {/* <input type="text"></input> */}
+                        <ul>
+                            {rooms &&
+                                rooms.map((room, index) => {
+                                    return (
+                                        <li key={`${index}-${room.name}`}>
+                                            {room.name}: {room.description}
+                                            <Button
+                                                onClick={() => {
+                                                    setCurrentSelection(room);
+                                                    setShowPopup(true);
+                                                }}
+                                            >
+                                                Show Details
+                                            </Button>
+                                        </li>
+                                    );
+                                })}
+                        </ul>
+                    </div>
+                )}
             </AuthenticatedLayout>
         </>
     );

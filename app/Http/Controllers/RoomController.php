@@ -65,7 +65,7 @@ class RoomController extends Controller
     // Return all rooms
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Room::select('name', 'description', 'id')->where('private', false)->get(),
+            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()),
             // 'rooms' => Room::withCount(['users'])->select('name', 'description')->where('private', false)->get(),
         ]);
     }
