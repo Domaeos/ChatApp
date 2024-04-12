@@ -74,7 +74,7 @@ class RoomController extends Controller
      */
     public function myrooms(Request $request)
     {
-        return Inertia::render('Rooms/Index', [
+        return Inertia::render('Rooms/MyRooms', [
             'rooms' => $request->user()->rooms()->get(),
         ]);
     }
@@ -89,15 +89,22 @@ class RoomController extends Controller
     
     public function join(Request $request) {
         $joinId = $request->input('room_id');
-        // Check room isnt private
-        // Check user hasnt already joined
-        // Simple check can join and room shows in my rooms for now:
         $room = Room::select('name')->where('id', $joinId)->first();
+        
+        // Ensure room isnt private
+        // ---- 
+
+        // Check user hasnt already joined
+        if($request->user()->rooms()->find($joinId)->exists()) {
+            return back()->with('message', 'Already a member of '.$room->name)->with('status', 'error');
+        }
+
         $newMembership = new Member([
             'user_id' => $request->user()->id,
             'room_id' => $joinId,
         ]);
         $newMembership->save();
+
         return back()->with('message', "Successfully joined: ".$room->name)->with('status', 'success');
     }
     /**

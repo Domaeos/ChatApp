@@ -14,7 +14,7 @@ class Room extends Model
     ];
     
     protected $appends = [
-        'population',
+        'population', 'ownerName'
     ];
 
     public function users() {
@@ -28,7 +28,9 @@ class Room extends Model
     public function owner() {
         return $this->hasOne(User::class);
     }
-
+    public function getOwnerNameAttribute() {
+        return User::where('id', $this->user_id)->pluck('name');
+    }
     public function getPopulationAttribute() {
         return Member::where('room_id', $this->id)->count();
     }
