@@ -8,6 +8,7 @@ export default function PopupJoinRoom(props) {
     const [submitted, setSubmitted] = useState(false);
 
     useEffect(() => {
+        setSubmitted(false);
         setData(() => {
             return { room_id: props.room.id };
         });
@@ -16,7 +17,6 @@ export default function PopupJoinRoom(props) {
     function handleJoin(e) {
         e.preventDefault();
         setSubmitted(true);
-        console.log(data);
         router.post(route("rooms.join", data));
     }
     return (

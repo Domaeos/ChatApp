@@ -2,10 +2,9 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout";
 import CreateRoomForm from "@/Components/CreateRoomForm";
 import { Link } from "@inertiajs/react";
 import { Head } from "@inertiajs/react";
+import { useEffect } from "react";
 
-export default function Index({ auth, rooms, request }) {
-    console.log(request);
-    rooms && console.log(rooms);
+export default function Index({ auth, rooms, request, flash }) {
     return (
         <AuthenticatedLayout user={auth.user}>
             <Head title="Rooms" />

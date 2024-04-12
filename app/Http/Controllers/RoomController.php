@@ -92,13 +92,13 @@ class RoomController extends Controller
         // Check room isnt private
         // Check user hasnt already joined
         // Simple check can join and room shows in my rooms for now:
+        $room = Room::select('name')->where('id', $joinId)->first();
         $newMembership = new Member([
             'user_id' => $request->user()->id,
             'room_id' => $joinId,
         ]);
         $newMembership->save();
-        // Provide visual feedback later and reload all rooms page/partial reload?
-        return redirect(route('rooms.index'));
+        return back()->with('message', "Successfully joined: ".$room->name)->with('status', 'success');
     }
     /**
      * Show the form for editing the specified resource.
