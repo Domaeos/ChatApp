@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PusherEvent;
 use App\Models\Member;
 use App\Models\Message;
 use App\Models\Moderator;
@@ -10,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
+use Pusher\Pusher;
 
 class RoomController extends Controller
 {
@@ -42,7 +44,6 @@ class RoomController extends Controller
         ]);
         
         if ($validated) {
-        
             $userInfo = ['user_id' => $request->user()->id];
             $newRoom = $request->user()->rooms()->create(array_merge($validated, $userInfo));
 
@@ -58,6 +59,7 @@ class RoomController extends Controller
             ]);
 
             $newMember->save();
+            event(new PusherEvent('Room has been created: '.$newRoom->name));
         }
         return redirect(route('rooms.index'));
     }
