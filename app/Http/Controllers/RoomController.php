@@ -62,12 +62,10 @@ class RoomController extends Controller
         return redirect(route('rooms.index'));
     }
 
-    // Return all rooms
+    // Return all rooms that arent private
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()),
-            // 'rooms' => Room::withCount(['users'])->select('name', 'description')->where('private', false)->get(),
-        ]);
+            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()),        ]);
     }
     /**
      * Display the specified resource.
@@ -90,7 +88,7 @@ class RoomController extends Controller
     public function join(Request $request) {
         $joinId = $request->input('room_id');
         $room = Room::select('name')->where('id', $joinId)->first();
-        
+
         // Ensure room isnt private
         // ---- 
 
