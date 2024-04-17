@@ -7,11 +7,11 @@ use App\Models\Member;
 use App\Models\Message;
 use App\Models\Moderator;
 use App\Models\Room;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
-use Pusher\Pusher;
 
 class RoomController extends Controller
 {
@@ -20,7 +20,11 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('Rooms/Index');
+        // $myRooms = $this->myrooms($request->user());
+
+        return Inertia::render('Rooms/Index', [
+            'myRooms' => fn() => $this->myrooms($request),
+        ]);
     }
 
     /**
@@ -59,24 +63,24 @@ class RoomController extends Controller
             ]);
 
             $newMember->save();
-            event(new PusherEvent('Room has been created: '.$newRoom->name));
+            // event(new PusherEvent('Room has been created: '.$newRoom->name));
         }
-        return redirect(route('rooms.index'));
     }
 
     // Return all rooms that arent private
     public function all(Request $request) {
         return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()),        ]);
+            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()) ]);
     }
     /**
      * Display the specified resource.
      */
-    public function myrooms(Request $request)
+    private function myrooms(Request $request)
     {
-        return Inertia::render('Rooms/MyRooms', [
-            'rooms' => $request->user()->rooms()->get(),
-        ]);
+        if ($request->user()) {
+            return $request->user()->rooms;
+        }
+        return [];
     }
 
     public function show(Room $room) {
@@ -95,7 +99,7 @@ class RoomController extends Controller
         // ---- 
 
         // Check user hasnt already joined
-        if($request->user()->rooms()->find($joinId)->exists()) {
+        if($request->user()->rooms->find($joinId)->exists()) {
             return back()->with('message', 'Already a member of '.$room->name)->with('status', 'error');
         }
 

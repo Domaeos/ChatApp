@@ -2,6 +2,29 @@
 @tailwind components;
 @tailwind utilities;
 
+:root > * {
+    box-sizing: content-box;
+    height: 100%;
+}
+
+body > * {
+    height: 100% !important;
+}
+
+.main-grid {
+    display: grid;
+    height: 600px;
+    padding-top: 20px;
+    grid-gap: 20px;
+    grid-template-rows: 1fr;
+    grid-template-columns: 200px 1fr;
+}
+
+.side-grid {
+    display: grid;
+    height: auto;
+    width: 100%;
+}
 .myrooms-grid {
     display: grid;
     padding: 20px;
@@ -9,6 +32,42 @@
     grid-gap: 20px;
 }
 
+.chat-room-grid {
+    display: grid;
+    padding: 10px;
+    grid-gap: 5px;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto auto;
+}
+.chat-input {
+    resize: none;
+}
+.single-chat-message {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+}
+.single-chat-header {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    border-bottom: 2px solid;
+    border-color: rgba(20, 20, 20, 0.059);
+}
+.single-chat-author {
+    font-weight: bold;
+    margin-right: 5px;
+    align-self: last baseline;
+}
+.chat-message-date {
+    font-style: italic;
+    font-size: 0.8rem;
+    align-self: last baseline;
+}
+.chat-output-message {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-area: "message";
+}
 .myrooms-card-buttons-grid {
     display: grid;
     width: 100%;

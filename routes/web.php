@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoomController;
+use App\Models\Message;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,23 +22,22 @@ use Inertia\Inertia;
 Route::get('rooms/myrooms', [RoomController::class, 'myrooms'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.myrooms');
-
 Route::post('rooms/join', [RoomController::class, 'join'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.join');
+Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
 
-// Route::get('/', [RoomController::class, 'all'])
-// ->middleware(['auth', 'verified'])
-// ->name('rooms.all');
+Route::get('/messages/{roomID}', [MessageController::class, 'getMessages'])
+->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
+->name('message.all');
 
-Route::get('/', function () {
-    return Inertia::render('Rooms/Index');
-})->name('rooms.index');
+Route::post('/messages/{roomID}', [MessageController::class, 'sendMessage'])
+->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
+->name('message.send');
 
-
-Route::resource('rooms', RoomController::class)
-->only(['index', 'store', 'show', 'create'])
-->middleware(['auth', 'verified']);
+// Route::resource('rooms', RoomController::class)
+// ->only(['index', 'store', 'show', 'create'])
+// ->middleware(['auth', 'verified']);
 
 
 Route::get('/dashboard', function () {

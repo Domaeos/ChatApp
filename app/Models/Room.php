@@ -35,6 +35,10 @@ class Room extends Model
         return Member::where('room_id', $this->id)->count();
     }
 
+    public function messages() {
+        return $this->hasMany(Message::class);
+    }
+
     public function hasMember(User $user) {
         return (Member::where('room_id', $this->id)->where('user_id', $user->id)->count() !== 0);
     }
