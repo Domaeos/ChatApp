@@ -29,7 +29,7 @@ class Room extends Model
         return $this->hasOne(User::class);
     }
     public function getOwnerNameAttribute() {
-        return User::where('id', $this->user_id)->pluck('name');
+        return User::where('id', $this->user_id)?->pluck('name')[0];
     }
     public function getPopulationAttribute() {
         return Member::where('room_id', $this->id)->count();

@@ -172,7 +172,7 @@ export default function Authenticated({ user, header, children }) {
                 </header>
             )} */}
 
-            <main className=" min-h-full">{children}</main>
+            <main className="page-grid">{children}</main>
         </div>
     );
 }

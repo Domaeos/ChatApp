@@ -8,7 +8,6 @@ dayjs.extend(relativeTime);
 
 export default function ChatOutput({ currentRoom }) {
     const [messages, setMessages] = useState([]);
-    console.log(currentRoom);
 
     useEffect(() => {
         if (currentRoom) {
@@ -27,14 +26,14 @@ export default function ChatOutput({ currentRoom }) {
                 return (
                     <div
                         className="single-chat-message"
-                        key={message.user.id + index}
+                        key={message?.user.id + index}
                     >
                         <div className="single-chat-header">
                             <div className="single-chat-author">
-                                {message.user.name}
+                                {message?.user.name}
                             </div>
                             <span className="chat-message-date">
-                                {dayjs(message.created_at).fromNow()}
+                                {dayjs(message?.created_at).fromNow()}
                             </span>
                         </div>
                         <div className="chat-output-message">

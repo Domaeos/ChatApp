@@ -4,41 +4,65 @@
 
 :root > * {
     box-sizing: content-box;
-    height: 100%;
-}
-
-body > * {
-    height: 100% !important;
 }
 
 .main-grid {
     display: grid;
-    height: 600px;
-    padding-top: 20px;
-    grid-gap: 20px;
-    grid-template-rows: 1fr;
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
 }
 
+.page-grid {
+    display: grid;
+    height: 100%;
+    grid-template-columns: 1fr;
+}
+.room-grid {
+    display: grid;
+    height: 100%;
+    grid-gap: 20px;
+    grid-template-columns: 300px 1fr;
+}
+
+.side-bar {
+    background-color: #212529;
+}
+.rounded-circle {
+    padding: 1.5rem;
+    border-radius: 50%;
+}
+.side-grid-header {
+    display: grid;
+    height: 100%;
+    font-weight: bolder;
+    align-content: center;
+    padding-left: 20px;
+    background-color: #212529;
+    color: aliceblue;
+    overflow: hidden;
+}
+.chat-room-grid {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+}
 .side-grid {
     display: grid;
-    height: auto;
-    width: 100%;
-}
-.myrooms-grid {
-    display: grid;
-    padding: 20px;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 20px;
+    background-color: #212529;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr;
 }
 
-.chat-room-grid {
-    display: grid;
-    padding: 10px;
-    grid-gap: 5px;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto auto;
+.side-grid-list {
+    overflow: scroll;
 }
+
+.side-grid-rooms {
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
 .chat-input {
     resize: none;
 }

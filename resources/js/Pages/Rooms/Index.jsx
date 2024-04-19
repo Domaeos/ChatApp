@@ -29,18 +29,19 @@ export default function Index({ auth, flash, myRooms }) {
                 </Guest>
             )}
             {auth.user && (
-                <AuthenticatedLayout user={auth.user}>
-                    <Head title="Rooms" />
-
-                    <div className="h-full min-h-full main-grid">
-                        <ChannelList
-                            setCurrentRoom={setCurrentRoom}
-                            user={auth.user}
-                        />
-                        <ChatRoom currentRoom={currentRoom} />
-                    </div>
-                    <Toaster />
-                </AuthenticatedLayout>
+                <div className="h-full min-h-full main-grid">
+                    <AuthenticatedLayout user={auth.user}>
+                        <Head title="Rooms" />
+                        <div className="room-grid">
+                            <ChannelList
+                                setCurrentRoom={setCurrentRoom}
+                                user={auth.user}
+                            />
+                            <ChatRoom currentRoom={currentRoom} />
+                        </div>
+                        <Toaster />
+                    </AuthenticatedLayout>
+                </div>
             )}
         </>
     );
