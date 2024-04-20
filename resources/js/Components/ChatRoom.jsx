@@ -27,9 +27,13 @@ export default function ChatRoom({ currentRoom }) {
     return (
         <div className="chat-room-grid">
             <ChatOutput currentRoom={currentRoom} />
-            <ChatInput message={message} setMessage={setMessage} />
-            <Form onSubmit={handleSubmit}>
-                <Button type="submit" disabled={!message.length || submitting}>
+            <Form className="message-form" onSubmit={handleSubmit}>
+                <ChatInput message={message} setMessage={setMessage} />
+                <Button
+                    type="submit"
+                    className="message-submit-button"
+                    disabled={!message.length || submitting}
+                >
                     Submit
                 </Button>
             </Form>

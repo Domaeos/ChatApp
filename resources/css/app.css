@@ -7,9 +7,11 @@
 }
 
 .main-grid {
+    overflow: scroll;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: auto 1fr;
+    max-height: 100%;
+    grid-auto-flow: row;
+    grid-template-rows: minmax(0, auto) minmax(0, 1fr) minmax(0, auto);
 }
 
 .page-grid {
@@ -33,34 +35,70 @@
 }
 .side-grid-header {
     display: grid;
-    height: 100%;
+    min-height: 0;
+    max-height: auto;
     font-weight: bolder;
     align-content: center;
     padding-left: 20px;
     background-color: #212529;
     color: aliceblue;
-    overflow: hidden;
+    position: absolute;
+}
+.side-grid-list {
+    display: grid;
+    grid-auto-flow: row;
+    max-height: 100%;
 }
 .chat-room-grid {
-    padding: 20px;
     display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr auto;
+    max-height: 100%;
+    position: relative;
+    padding-right: 20px;
+    grid-auto-flow: row;
+    grid-template-rows: minmax(0, 1fr) minmax(0, auto) minmax(0, auto);
+}
+.chatbox-flex {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    max-height: 100%;
+    position: relative;
+    overflow-y: scroll;
+    grid-template-rows: minmax(0, 1fr);
+}
+.message-form {
+    display: grid;
+    grid-gap: 5px;
+    padding: 5px;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr auto;
+}
+.message-submit-button {
+    display: inline-block;
 }
 .side-grid {
+    max-height: 100%;
     display: grid;
+    overflow: scroll !important;
     background-color: #212529;
-    grid-template-columns: 1fr;
-    grid-template-rows: 1fr 1fr;
-}
-
-.side-grid-list {
+    grid-auto-flow: row;
     overflow: scroll;
+}
+.side-grid > * {
+    position: relative;
+}
+.room-accordion {
+    min-height: 0;
+    overflow: scroll;
+    position: absolute;
 }
 
 .side-grid-rooms {
     display: grid;
+    height: 100%;
+    overflow: scroll;
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
 }
 
 .chat-input {
@@ -90,7 +128,6 @@
 .chat-output-message {
     grid-column-start: 1;
     grid-column-end: 2;
-    grid-area: "message";
 }
 .myrooms-card-buttons-grid {
     display: grid;

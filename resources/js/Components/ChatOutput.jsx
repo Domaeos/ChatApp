@@ -21,7 +21,7 @@ export default function ChatOutput({ currentRoom }) {
         }
     }, [currentRoom]);
     return (
-        <div className="chatbox-grid">
+        <div className="chatbox-flex">
             {messages?.map((message, index) => {
                 return (
                     <div
