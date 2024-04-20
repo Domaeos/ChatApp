@@ -4,13 +4,11 @@ import { Head } from "@inertiajs/react";
 import { useEffect } from "react";
 import { router } from "@inertiajs/react";
 import ChannelList from "@/Components/ChannelList";
-import { usePage } from "@inertiajs/react";
 import ChatRoom from "@/Components/ChatRoom";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
 export default function Index({ auth, flash, myRooms }) {
-    console.log(auth);
     const [currentRoom, setCurrentRoom] = useState(null);
     useEffect(() => {
         if (auth.user) {
@@ -19,7 +17,6 @@ export default function Index({ auth, flash, myRooms }) {
             }
         }
     }, []);
-    console.log(currentRoom);
 
     return (
         <>

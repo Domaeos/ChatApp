@@ -63,7 +63,6 @@ class RoomController extends Controller
             ]);
 
             $newMember->save();
-            // event(new PusherEvent('Room has been created: '.$newRoom->name));
         }
     }
 

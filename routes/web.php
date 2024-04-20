@@ -31,9 +31,14 @@ Route::get('/messages/{roomID}', [MessageController::class, 'getMessages'])
 ->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
 ->name('message.all');
 
+Route::get('/messages/{roomID}/{messageID}', [MessageController::class, 'getMessages'])
+->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
+->name('message.single');
+
 Route::post('/messages/{roomID}', [MessageController::class, 'sendMessage'])
 ->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
 ->name('message.send');
+
 
 // Route::resource('rooms', RoomController::class)
 // ->only(['index', 'store', 'show', 'create'])

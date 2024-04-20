@@ -4,10 +4,20 @@ import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ChatInput from "./ChatInput";
+import EventHandler from "@/Pages/Events/EventHandler";
+import { useEffect } from "react";
+import { usePage } from "@inertiajs/react";
 
 export default function ChatRoom({ currentRoom }) {
+    const { myRooms } = usePage().props;
+
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
+    const [refresh, setRefresh] = useState(true);
+
+    useEffect(() => {
+        EventHandler(currentRoom, setRefresh);
+    }, []);
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -16,9 +26,9 @@ export default function ChatRoom({ currentRoom }) {
             .post(`/messages/${currentRoom}`, { message })
             .then(() => {
                 setMessage("");
+                setSubmitting(false);
             })
             .catch((e) => {
-                console.log(e);
                 toast.error("Something went wrong", {
                     position: "bottom-center",
                 });
@@ -26,13 +36,13 @@ export default function ChatRoom({ currentRoom }) {
     }
     return (
         <div className="chat-room-grid">
-            <ChatOutput currentRoom={currentRoom} />
+            <ChatOutput refresh={refresh} currentRoom={currentRoom} />
             <Form className="message-form" onSubmit={handleSubmit}>
                 <ChatInput message={message} setMessage={setMessage} />
                 <Button
                     type="submit"
                     className="message-submit-button"
-                    disabled={!message.length || submitting}
+                    disabled={!message.length && submitting}
                 >
                     Submit
                 </Button>

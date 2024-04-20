@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
 use Ramsey\Uuid\Type\Integer;
+use App\Events\PusherEvent;
 
 class MessageController extends Controller
 {
@@ -25,6 +26,7 @@ class MessageController extends Controller
                 'user_id' => $request->user()->id,
             ]);
             $newMessage->save();
+            event(new PusherEvent($newMessage));
             return Response::json('Success', 201);
         } else {
              return abort(400, 'Invalid request');
@@ -36,6 +38,12 @@ class MessageController extends Controller
         return Message::where('room_id', $roomID)->with('user:id,name')->get();
     }
 
+    public function getSingularMessage(Request $request) {
+        // $roomID = (int) Route::input('roomID');
+        $messageID = (int) Route::input('messageID');
+
+        return Message::find($messageID);
+    }
     /**
      * Update the specified resource in storage.
      */

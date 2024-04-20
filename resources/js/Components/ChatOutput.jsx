@@ -6,20 +6,21 @@ import { useState } from "react";
 
 dayjs.extend(relativeTime);
 
-export default function ChatOutput({ currentRoom }) {
+export default function ChatOutput({ currentRoom, refresh }) {
     const [messages, setMessages] = useState([]);
 
     useEffect(() => {
+        console.log("refresh triggered");
         if (currentRoom) {
             axios
                 .get("/messages/" + currentRoom)
                 .then((res) => {
-                    console.log(res.data);
                     setMessages(res.data);
                 })
                 .catch((e) => {});
         }
-    }, [currentRoom]);
+    }, [currentRoom, refresh]);
+
     return (
         <div className="chatbox-flex">
             {messages?.map((message, index) => {

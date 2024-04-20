@@ -23,7 +23,6 @@ class SendPusherEvent
      */
     public function handle(PusherEvent $event): void
     {
-        error_log("In handle");
         $this->pusher->trigger($event->broadcastOn(), $event->broadcastAs(), array('message' => $event->message));
     }
 }

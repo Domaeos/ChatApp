@@ -7,7 +7,13 @@ export default function ChannelList({ setCurrentRoom }) {
     const { myRooms } = usePage().props;
 
     function handleRoomChange(id) {
-        setCurrentRoom(+id);
+        setCurrentRoom((oldID) => {
+            if (oldID !== +id) {
+                return +id;
+            } else {
+                return oldID;
+            }
+        });
     }
 
     function handleFind(e) {
@@ -25,26 +31,25 @@ export default function ChannelList({ setCurrentRoom }) {
                             variant="secondary"
                             defaultActiveKey={0}
                             alwaysOpen
-                            flush="true"
+                            flush
                         >
                             {myRooms.length &&
                                 myRooms?.map((room, index) => {
                                     return (
                                         <Accordion.Item
-                                            key={index + room}
+                                            key={index + room.name}
                                             eventKey={index}
                                         >
                                             <Accordion.Header
-                                                action
                                                 onClick={() =>
                                                     handleRoomChange(room.id)
                                                 }
                                             >
                                                 {room.name}
                                             </Accordion.Header>
-                                            <Accordion.Body>
+                                            {/* <Accordion.Body>
                                                 Channels
-                                            </Accordion.Body>
+                                            </Accordion.Body> */}
                                         </Accordion.Item>
                                     );
                                 })}

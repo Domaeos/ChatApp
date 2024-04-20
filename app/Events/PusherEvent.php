@@ -30,11 +30,11 @@ class PusherEvent
     public function broadcastOn(): array
     {
         return [
-            'my-channel'
+            'channel-info'
         ];
     }
     public function broadcastAs()
      {
-      return 'my-event';
+      return 'new-message';
   }
 }
