@@ -27,6 +27,7 @@ class MessageController extends Controller
             ]);
             $newMessage->save();
             event(new PusherEvent($newMessage));
+            error_log("message saved");
             return Response::json('Success', 201);
         } else {
              return abort(400, 'Invalid request');
@@ -41,7 +42,6 @@ class MessageController extends Controller
     public function getSingularMessage(Request $request) {
         // $roomID = (int) Route::input('roomID');
         $messageID = (int) Route::input('messageID');
-
         return Message::find($messageID);
     }
     /**

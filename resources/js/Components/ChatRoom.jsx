@@ -13,10 +13,10 @@ export default function ChatRoom({ currentRoom }) {
 
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
-    const [refresh, setRefresh] = useState(true);
+    const [roomNumberToRefresh, setRoomNumberToRefresh] = useState(null);
 
     useEffect(() => {
-        EventHandler(currentRoom, setRefresh);
+        EventHandler(setRoomNumberToRefresh);
     }, []);
 
     function handleSubmit(e) {
@@ -36,7 +36,10 @@ export default function ChatRoom({ currentRoom }) {
     }
     return (
         <div className="chat-room-grid">
-            <ChatOutput refresh={refresh} currentRoom={currentRoom} />
+            <ChatOutput
+                roomNumberToRefresh={roomNumberToRefresh}
+                currentRoom={currentRoom}
+            />
             <Form className="message-form" onSubmit={handleSubmit}>
                 <ChatInput message={message} setMessage={setMessage} />
                 <Button

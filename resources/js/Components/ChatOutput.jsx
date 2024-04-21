@@ -3,23 +3,34 @@ import axios from "axios";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 dayjs.extend(relativeTime);
 
-export default function ChatOutput({ currentRoom, refresh }) {
+export default function ChatOutput({ currentRoom, roomNumberToRefresh }) {
+    const prevRoom = useRef(currentRoom);
     const [messages, setMessages] = useState([]);
+    const [initialLoad, setInitialLoad] = useState(true);
 
     useEffect(() => {
-        console.log("refresh triggered");
+        if (prevRoom !== currentRoom) {
+            console.log("Room change  triggered");
+            console.log("Resetting ref");
+            prevRoom.current = currentRoom;
+        } else {
+            console.log("new message trigger");
+        }
         if (currentRoom) {
             axios
                 .get("/messages/" + currentRoom)
                 .then((res) => {
                     setMessages(res.data);
                 })
-                .catch((e) => {});
+                .catch((e) => {
+                    console.log(e);
+                });
         }
-    }, [currentRoom, refresh]);
+    }, [currentRoom, roomNumberToRefresh]);
 
     return (
         <div className="chatbox-flex">
