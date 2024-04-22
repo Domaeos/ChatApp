@@ -26,7 +26,7 @@ export default function Index({ auth, flash, myRooms }) {
                 </Guest>
             )}
             {auth.user && (
-                <div className="h-full min-h-full main-grid">
+                <div className="main-grid">
                     <AuthenticatedLayout user={auth.user}>
                         <Head title="Rooms" />
                         <div className="room-grid">

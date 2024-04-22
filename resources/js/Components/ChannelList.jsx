@@ -2,6 +2,7 @@ import { usePage } from "@inertiajs/react";
 import FindRooms from "./FindRooms";
 import { Button } from "react-bootstrap";
 import { Accordion } from "react-bootstrap";
+import FriendsList from "./FriendsList";
 
 export default function ChannelList({ setCurrentRoom }) {
     const { myRooms } = usePage().props;
@@ -59,7 +60,12 @@ export default function ChannelList({ setCurrentRoom }) {
                         )}
                     </div>
                 </div>
-                {/* <div className="side-grid-header friends">Friends</div> */}
+                <div className="side-grid-friends">
+                    <div className="side-grid-header friends">Friends</div>
+                    <div className="side-grid-friends-grid">
+                        <FriendsList />
+                    </div>
+                </div>
             </div>
         </>
     );

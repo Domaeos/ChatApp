@@ -13,12 +13,13 @@ export default function ChatOutput({ currentRoom, roomNumberToRefresh }) {
     const [initialLoad, setInitialLoad] = useState(true);
 
     useEffect(() => {
-        if (prevRoom !== currentRoom) {
-            console.log("Room change  triggered");
-            console.log("Resetting ref");
+        if (prevRoom.current !== currentRoom) {
             prevRoom.current = currentRoom;
         } else {
-            console.log("new message trigger");
+            if (roomNumberToRefresh?.roomID !== currentRoom) {
+                // Call not for this room
+                return;
+            }
         }
         if (currentRoom) {
             axios

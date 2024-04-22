@@ -9,6 +9,6 @@ export default function EventHandler(setRoomNumberToRefresh) {
     var channel = pusher.subscribe("channel-info");
 
     channel.bind("new-message", (data) => {
-        setRoomNumberToRefresh(+data.message.room_id);
+        setRoomNumberToRefresh({ roomID: +data.message.room_id });
     });
 }
