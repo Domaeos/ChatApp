@@ -19,8 +19,7 @@ export default function ChatRoom({ currentRoom }) {
         EventHandler(setRoomNumberToRefresh);
     }, []);
 
-    function handleSubmit(e) {
-        e.preventDefault();
+    function handleSubmit() {
         setSubmitting(true);
         axios
             .post(`/messages/${currentRoom}`, { message })
@@ -40,16 +39,19 @@ export default function ChatRoom({ currentRoom }) {
                 roomNumberToRefresh={roomNumberToRefresh}
                 currentRoom={currentRoom}
             />
-            <Form className="message-form" onSubmit={handleSubmit}>
-                <ChatInput message={message} setMessage={setMessage} />
-                <Button
-                    type="submit"
-                    className="message-submit-button"
-                    disabled={!message.length && submitting}
-                >
-                    Submit
-                </Button>
-            </Form>
+            <ChatInput
+                handleSubmit={handleSubmit}
+                message={message}
+                submitting={submitting}
+                setMessage={setMessage}
+            />
+            <Button
+                className="message-submit-button"
+                onClick={handleSubmit}
+                disabled={!message.length || submitting}
+            >
+                Submit
+            </Button>
         </div>
     );
 }
