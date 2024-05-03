@@ -8,7 +8,13 @@ import ChatRoom from "@/Components/ChatRoom";
 import { useState } from "react";
 import { Toaster } from "react-hot-toast";
 
+import UserModal from "@/Components/UserModal";
+
 export default function Index({ auth, flash, myRooms }) {
+    const [modal, setModal] = useState({
+        action: "",
+        show: false,
+    });
     const [currentRoom, setCurrentRoom] = useState(null);
     useEffect(() => {
         if (auth.user) {
@@ -31,6 +37,7 @@ export default function Index({ auth, flash, myRooms }) {
                         <Head title="Rooms" />
                         <div className="room-grid">
                             <ChannelList
+                                setModal={setModal}
                                 setCurrentRoom={setCurrentRoom}
                                 user={auth.user}
                             />
@@ -38,6 +45,7 @@ export default function Index({ auth, flash, myRooms }) {
                         </div>
                         <Toaster />
                     </AuthenticatedLayout>
+                    <UserModal modal={modal} setModal={setModal} />
                 </div>
             )}
         </>

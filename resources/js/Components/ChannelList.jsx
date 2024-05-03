@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Accordion } from "react-bootstrap";
 import FriendsList from "./FriendsList";
 
-export default function ChannelList({ setCurrentRoom }) {
+export default function ChannelList({ setCurrentRoom, setModal }) {
     const { myRooms } = usePage().props;
 
     function handleRoomChange(id) {
@@ -18,7 +18,9 @@ export default function ChannelList({ setCurrentRoom }) {
     }
 
     function handleFind(e) {
-        //
+        setModal((modal) => {
+            return { show: true, action: "Find a room" };
+        });
     }
 
     return (
