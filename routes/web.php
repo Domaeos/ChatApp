@@ -19,9 +19,12 @@ use Inertia\Inertia;
 |
 */
 
+
+// Group and tidy up
 Route::get('rooms/myrooms', [RoomController::class, 'myrooms'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.myrooms');
+
 Route::post('rooms/join', [RoomController::class, 'join'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.join');
@@ -30,6 +33,10 @@ Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
 Route::get('/messages/{roomID}', [MessageController::class, 'getMessages'])
 ->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
 ->name('message.all');
+
+Route::get('rooms/{roomID}/members', [RoomController::class, 'members'])
+->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
+->name('rooms.members');
 
 Route::get('/messages/{roomID}/{messageID}', [MessageController::class, 'getMessages'])
 ->middleware(['auth', 'verified', 'verifyMemberOfRoom'])

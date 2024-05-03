@@ -18,7 +18,7 @@ class Room extends Model
     ];
 
     public function users() {
-        return $this->hasManyThrough(User::class, Member::class);
+        return $this->hasManyThrough(User::class, Member::class, 'room_id', 'id');
     }
 
     public function moderators() {

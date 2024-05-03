@@ -7,7 +7,6 @@ use App\Models\Member;
 use App\Models\Message;
 use App\Models\Moderator;
 use App\Models\Room;
-use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -110,14 +109,11 @@ class RoomController extends Controller
 
         return back()->with('message', "Successfully joined: ".$room->name)->with('status', 'success');
     }
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Room $room)
-    {
-        //
+    
+    public function members(Request $request) {
+        $room = Room::find($request->roomID);
+        return $room ? response($room->users, 200) : response("Error", 400);
     }
-
     /**
      * Update the specified resource in storage.
      */

@@ -7,7 +7,6 @@ use App\Models\Room;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Route;
-use Ramsey\Uuid\Type\Integer;
 use App\Events\PusherEvent;
 
 class MessageController extends Controller
@@ -27,7 +26,6 @@ class MessageController extends Controller
             ]);
             $newMessage->save();
             event(new PusherEvent($newMessage));
-            error_log("message saved");
             return Response::json('Success', 201);
         } else {
              return abort(400, 'Invalid request');

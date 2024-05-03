@@ -1,5 +1,6 @@
 import { useState } from "react";
 import ChatOutput from "./ChatOutput";
+import ChatHeader from "./ChatHeader";
 import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-hot-toast";
@@ -35,6 +36,7 @@ export default function ChatRoom({ currentRoom }) {
     }
     return (
         <div className="chat-room-grid">
+            <ChatHeader room={myRooms.find((x) => x.id === currentRoom)} />
             <ChatOutput
                 roomNumberToRefresh={roomNumberToRefresh}
                 currentRoom={currentRoom}
@@ -48,7 +50,7 @@ export default function ChatRoom({ currentRoom }) {
             <Button
                 className="message-submit-button"
                 onClick={handleSubmit}
-                disabled={!message.length || submitting}
+                disabled={!message.length || submitting || !currentRoom}
             >
                 Submit
             </Button>
