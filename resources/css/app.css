@@ -124,6 +124,7 @@ body {
 
 .chat-input {
     resize: none;
+    padding: 10px;
 }
 .single-chat-message {
     flex: 0 0 auto;

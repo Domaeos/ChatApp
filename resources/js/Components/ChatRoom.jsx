@@ -42,18 +42,12 @@ export default function ChatRoom({ currentRoom }) {
                 currentRoom={currentRoom}
             />
             <ChatInput
+                currentRoom={currentRoom}
                 handleSubmit={handleSubmit}
                 message={message}
                 submitting={submitting}
                 setMessage={setMessage}
             />
-            <Button
-                className="message-submit-button"
-                onClick={handleSubmit}
-                disabled={!message.length || submitting || !currentRoom}
-            >
-                Submit
-            </Button>
         </div>
     );
 }

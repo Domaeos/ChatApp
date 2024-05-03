@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Modal } from "react-bootstrap";
+import FindRooms from "./FindRooms";
 
 export default function UserModal({ modal, setModal }) {
     const hideModal = () => {
-        console.log(modal);
-        setModal((modal) => {
+        setModal(() => {
             return { show: false, action: "" };
         });
     };
@@ -13,7 +13,9 @@ export default function UserModal({ modal, setModal }) {
             <Modal.Header closeButton>
                 <Modal.Title>{modal.action}</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Modal body content</Modal.Body>
+            <Modal.Body>
+                {modal.action === "Find a room" && <FindRooms />}
+            </Modal.Body>
         </Modal>
     );
 }
