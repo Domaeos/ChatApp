@@ -41,6 +41,7 @@ body {
 
 .side-grid-header {
     display: grid;
+    grid-template-columns: 1fr auto;
     max-height: auto;
     font-weight: bolder;
     align-content: center;
@@ -125,6 +126,20 @@ body {
 .chat-input {
     resize: none;
     padding: 10px;
+}
+.input-find-room {
+    width: 80%;
+}
+.find-room-wrapper {
+    display: grid;
+    grid-gap: 10px;
+    grid-template-rows: auto 1fr;
+    grid-auto-flow: row;
+    min-height: 300px;
+    justify-items: center;
+}
+.find-room-list {
+    width: 80%;
 }
 .single-chat-message {
     flex: 0 0 auto;

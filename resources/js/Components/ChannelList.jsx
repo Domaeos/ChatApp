@@ -1,5 +1,4 @@
 import { usePage } from "@inertiajs/react";
-import FindRooms from "./FindRooms";
 import { Button } from "react-bootstrap";
 import { Accordion } from "react-bootstrap";
 import FriendsList from "./FriendsList";
@@ -27,7 +26,18 @@ export default function ChannelList({ setCurrentRoom, setModal }) {
         <>
             <div className="side-grid">
                 <div className="side-grid-rooms">
-                    <div className="side-grid-header rooms">Rooms</div>
+                    <div className="side-grid-header rooms">
+                        <div className="header">Rooms</div>
+                        <div className="header-room-actions">
+                            <Button
+                                variant="secondary"
+                                onClick={handleFind}
+                                size="small"
+                            >
+                                Find
+                            </Button>
+                        </div>
+                    </div>
                     <div className="side-grid-list">
                         <Accordion
                             className="room-accordion"
@@ -58,7 +68,7 @@ export default function ChannelList({ setCurrentRoom, setModal }) {
                                 })}
                         </Accordion>
                         {!myRooms?.length && (
-                            <Button onClick={handleFind}>Find a room</Button>
+                            <div>Uh oh - no rooms! Join a room at the top</div>
                         )}
                     </div>
                 </div>

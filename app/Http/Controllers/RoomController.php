@@ -12,6 +12,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 
+use function Laravel\Prompts\search;
+
 class RoomController extends Controller
 {
     /**
@@ -19,8 +21,6 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        // $myRooms = $this->myrooms($request->user());
-
         return Inertia::render('Rooms/Index', [
             'myRooms' => fn() => $this->myrooms($request),
         ]);
@@ -67,12 +67,17 @@ class RoomController extends Controller
 
     // Return all rooms that arent private
     public function all(Request $request) {
-        return Inertia::render('Rooms/AllRooms', [
-            'rooms' => Inertia::lazy(fn() => Room::select('name', 'description', 'id')->where('private', false)->get()) ]);
+        error_log($request->search);
+        if (empty($request->search)) {
+            return Room::limit(20)->get();
+        } else {
+            return Room::where("name", "like", "%{$request->search}%")->limit(20)->get();
+
+        }
+        // $rooms =  Room::select('name', 'description', 'id')->where('private', false)->get();
     }
-    /**
-     * Display the specified resource.
-     */
+
+    // Return rooms user belongs to
     private function myrooms(Request $request)
     {
         if ($request->user()) {
@@ -81,6 +86,8 @@ class RoomController extends Controller
         return [];
     }
 
+    // Retrieve last 200 messages from room. Ability to paginate to be
+    // and offset to be added later date
     public function show(Room $room) {
         // add events for new messages in a room
         // Chunk or cursor for a lot of potential messages?
