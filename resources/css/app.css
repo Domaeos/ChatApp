@@ -130,6 +130,11 @@ body {
 .input-find-room {
     width: 80%;
 }
+.invisible-button {
+    padding: none !important;
+    border: none !important;
+    background: none !important;
+}
 .find-room-wrapper {
     display: grid;
     grid-gap: 10px;

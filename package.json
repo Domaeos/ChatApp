@@ -27,6 +27,7 @@
         "pusher": "^5.2.0",
         "pusher-js": "^8.4.0-rc2",
         "react-bootstrap": "^2.10.2",
+        "react-bootstrap-icons": "^1.11.4",
         "react-hot-toast": "^2.4.1",
         "save": "^2.9.0"
     }
