@@ -1,19 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Events\PusherEvent;
-use App\Models\Member;
 use App\Models\Message;
 use App\Models\Moderator;
 use App\Models\Room;
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
-
-use function Laravel\Prompts\search;
 
 class RoomController extends Controller
 {
@@ -55,12 +48,12 @@ class RoomController extends Controller
             ]);
             $newModerates->save();
 
-            $newMember = new Member([
-                'user_id' => $request->user()->id,
-                'room_id' => $newRoom->id,
-            ]);
+            // $newMember = new Member([
+            //     'user_id' => $request->user()->id,
+            //     'room_id' => $newRoom->id,
+            // ]);
 
-            $newMember->save();
+            // $newMember->save();
         }
     }
 
@@ -97,26 +90,19 @@ class RoomController extends Controller
     public function join(Request $request) {
     try {
         $joinId = $request->input('roomID');
-        $room = Room::select('name')->where('id', $joinId)->first();
+        $room = Room::select('name')->find($joinId);
 
         // Ensure room isnt private
         // ---- 
 
         // Check user hasnt already joined
-        if($request->user()->rooms->find($joinId)) {
+        if($request->user()->rooms()->find($joinId)) {
             return response("Already a member of this room", 400);
         }
-
-        $newMembership = new Member([
-            'user_id' => $request->user()->id,
-            'room_id' => $joinId,
-        ]);
-        $newMembership->save();
-
+        $room->users()->attach($request->user()->id);
         return response("Successfully joined: ".$room->name, 200);
     } catch (Exception $e) {
         error_log($e);
-        error_log("Erroring on join");
         return response("Error joining room", 500);
     }
     }
@@ -133,7 +119,7 @@ class RoomController extends Controller
         //
     }
 
-    /**
+    /**$request->user()->rooms()
      * Remove the specified resource from storage.
      */
     public function destroy(Room $room)

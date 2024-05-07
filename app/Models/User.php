@@ -51,10 +51,7 @@ class User extends Authenticatable
     public function rooms() {
         // $rooms = DB::table('members')->rightJoin('rooms', 'members.room_id', '=', 'rooms.id')->where('members.user_id', $this->id)->;
         // error_log($rooms);
-        return $this->hasManyThrough(
-            Room::class,
-            Member::class, 'room_id', 'room_id'
-        );
+        return $this->belongsToMany(Room::class);
     }
 
     public function messages() {

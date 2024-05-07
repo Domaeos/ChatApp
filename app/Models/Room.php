@@ -18,7 +18,8 @@ class Room extends Model
     ];
 
     public function users() {
-        return $this->hasManyThrough(User::class, Member::class, 'room_id', 'id');
+        // return $this->hasManyThrough(User::class, Member::class, 'room_id', 'id');
+        return $this->belongsToMany(User::class);
     }
 
     public function moderators() {
@@ -32,15 +33,15 @@ class Room extends Model
         return User::where('id', $this->user_id)?->pluck('name')[0];
     }
     public function getPopulationAttribute() {
-        return Member::where('room_id', $this->id)->count();
+        return $this->users->count();
     }
 
     public function messages() {
         return $this->hasMany(Message::class);
     }
 
-    public function hasMember(User $user) {
-        return (Member::where('room_id', $this->id)->where('user_id', $user->id)->count() !== 0);
-    }
+    // public function hasMember(User $user) {
+    //     return (Member::where('room_id', $this->id)->where('user_id', $user->id)->count() !== 0);
+    // }
 }
     
