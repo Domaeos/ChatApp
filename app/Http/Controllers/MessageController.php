@@ -17,7 +17,9 @@ class MessageController extends Controller
             'message' => 'string|required|max:255|min:1'
         ]);
 
+        
         $roomCheck = $request->user()->rooms()->find($request->roomID);
+
         if ($roomCheck) {
             $newMessage = new Message([
                 'message' => $request->message,

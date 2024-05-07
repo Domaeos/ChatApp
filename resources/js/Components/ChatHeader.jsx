@@ -10,7 +10,7 @@ export default function ChatHeader({ room }) {
             axios
                 .get(`/rooms/${room.id}/members`)
                 .then((res) => {
-                    console.log(res);
+                    // member list
                 })
                 .catch((e) => console.log(e.response));
         }

@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -48,11 +49,11 @@ class User extends Authenticatable
     ];
 
     public function rooms() {
+        // $rooms = DB::table('members')->rightJoin('rooms', 'members.room_id', '=', 'rooms.id')->where('members.user_id', $this->id)->;
+        // error_log($rooms);
         return $this->hasManyThrough(
             Room::class,
-            Member::class,
-            'user_id',
-            'id'
+            Member::class, 'room_id', 'room_id'
         );
     }
 

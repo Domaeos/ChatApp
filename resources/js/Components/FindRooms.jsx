@@ -1,26 +1,29 @@
-import { usePage } from "@inertiajs/react";
+import { MyRoomsContext } from "@/Pages/Rooms/Index";
 import axios from "axios";
 import { useEffect } from "react";
+import { useContext } from "react";
 import { useState } from "react";
 import { ListGroup, Button, Spinner } from "react-bootstrap";
 import { Check, PersonPlusFill } from "react-bootstrap-icons";
+import toast from "react-hot-toast";
 
 export default function FindRooms() {
-    const { myRooms } = usePage().props;
+    const myRooms = useContext(MyRoomsContext);
     const [joining, setJoining] = useState(false);
     const [joinID, setJoinID] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
     const [roomList, setRoomList] = useState([]);
 
     function handleJoin(id) {
-        axios.post();
         setJoining(true);
         setJoinID(id);
-        setTimeout(() => {
-            setJoinID(null);
-            setJoining(false);
-            console.log("Joined");
-        }, 1000);
+        axios
+            .post("/rooms/join", { roomID: id })
+            .then((res) => {
+                setJoinID(null);
+                setJoining(false);
+            })
+            .catch((e) => console.log(e));
     }
 
     useEffect(() => {

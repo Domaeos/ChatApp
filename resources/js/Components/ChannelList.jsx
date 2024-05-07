@@ -2,9 +2,11 @@ import { usePage } from "@inertiajs/react";
 import { Button } from "react-bootstrap";
 import { Accordion } from "react-bootstrap";
 import FriendsList from "./FriendsList";
+import { useContext } from "react";
+import { MyRoomsContext } from "@/Pages/Rooms/Index";
 
 export default function ChannelList({ setCurrentRoom, setModal }) {
-    const { myRooms } = usePage().props;
+    const myRooms = useContext(MyRoomsContext);
 
     function handleRoomChange(id) {
         setCurrentRoom((oldID) => {

@@ -9,6 +9,7 @@ use App\Models\Moderator;
 use App\Models\Room;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Inertia\Inertia;
 
@@ -21,9 +22,7 @@ class RoomController extends Controller
      */
     public function index(Request $request)
     {
-        return Inertia::render('Rooms/Index', [
-            'myRooms' => fn() => $this->myrooms($request),
-        ]);
+        return Inertia::render('Rooms/Index');
     }
 
     /**
@@ -78,12 +77,11 @@ class RoomController extends Controller
     }
 
     // Return rooms user belongs to
-    private function myrooms(Request $request)
+    public function myrooms(Request $request)
     {
-        if ($request->user()) {
-            return $request->user()->rooms;
-        }
-        return [];
+        // return DB::table('members')->where('members.user_id', $request->user()->id)->rightJoin('rooms', 'members.room_id', '=', 'rooms.id')->get();
+        error_log($request->user()->rooms);
+        return $request->user()->rooms;
     }
 
     // Retrieve last 200 messages from room. Ability to paginate to be
@@ -97,15 +95,16 @@ class RoomController extends Controller
     }
     
     public function join(Request $request) {
-        $joinId = $request->input('room_id');
+    try {
+        $joinId = $request->input('roomID');
         $room = Room::select('name')->where('id', $joinId)->first();
 
         // Ensure room isnt private
         // ---- 
 
         // Check user hasnt already joined
-        if($request->user()->rooms->find($joinId)->exists()) {
-            return back()->with('message', 'Already a member of '.$room->name)->with('status', 'error');
+        if($request->user()->rooms->find($joinId)) {
+            return response("Already a member of this room", 400);
         }
 
         $newMembership = new Member([
@@ -114,7 +113,12 @@ class RoomController extends Controller
         ]);
         $newMembership->save();
 
-        return back()->with('message', "Successfully joined: ".$room->name)->with('status', 'success');
+        return response("Successfully joined: ".$room->name, 200);
+    } catch (Exception $e) {
+        error_log($e);
+        error_log("Erroring on join");
+        return response("Error joining room", 500);
+    }
     }
     
     public function members(Request $request) {

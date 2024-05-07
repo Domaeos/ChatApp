@@ -1,17 +1,16 @@
 import { useState } from "react";
 import ChatOutput from "./ChatOutput";
 import ChatHeader from "./ChatHeader";
-import { Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-hot-toast";
 import ChatInput from "./ChatInput";
 import EventHandler from "@/Pages/Events/EventHandler";
 import { useEffect } from "react";
-import { usePage } from "@inertiajs/react";
+import { useContext } from "react";
+import { MyRoomsContext } from "@/Pages/Rooms/Index";
 
 export default function ChatRoom({ currentRoom }) {
-    const { myRooms } = usePage().props;
-
+    const myRooms = useContext(MyRoomsContext);
     const [message, setMessage] = useState("");
     const [submitting, setSubmitting] = useState(false);
     const [roomNumberToRefresh, setRoomNumberToRefresh] = useState(null);
