@@ -7,7 +7,7 @@ import { ListGroup, Button, Spinner } from "react-bootstrap";
 import { Check, PersonPlusFill } from "react-bootstrap-icons";
 import toast from "react-hot-toast";
 
-export default function FindRooms() {
+export default function FindRooms({ setRoomsRefresh }) {
     const myRooms = useContext(MyRoomsContext);
     const [joining, setJoining] = useState(false);
     const [joinID, setJoinID] = useState(null);
@@ -20,8 +20,11 @@ export default function FindRooms() {
         axios
             .post("/rooms/join", { roomID: id })
             .then((res) => {
+                console.log(res);
+                setRoomsRefresh((room) => !room);
                 setJoinID(null);
                 setJoining(false);
+                setSearchTerm("");
             })
             .catch((e) => console.log(e));
     }
@@ -32,7 +35,7 @@ export default function FindRooms() {
             .then((res) => {
                 setRoomList(res.data);
             })
-            .catch((e) => console.error("Error fetching rooms"));
+            .catch((e) => console.log(e.response));
     }, [searchTerm]);
 
     return (

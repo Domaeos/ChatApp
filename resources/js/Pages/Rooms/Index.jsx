@@ -17,6 +17,7 @@ export default function Index({ auth }) {
         action: "",
         show: false,
     });
+    const [roomsRefresh, setRoomsRefresh] = useState(false);
     const [myRooms, setMyRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState(null);
     useEffect(() => {
@@ -26,7 +27,7 @@ export default function Index({ auth }) {
                 .then((res) => setMyRooms(res.data))
                 .catch((e) => console.log(e.response.data));
         }
-    }, []);
+    }, [roomsRefresh]);
 
     return (
         <>
@@ -50,7 +51,11 @@ export default function Index({ auth }) {
                             </div>
                             <Toaster />
                         </AuthenticatedLayout>
-                        <UserModal modal={modal} setModal={setModal} />
+                        <UserModal
+                            modal={modal}
+                            setRoomsRefresh={setRoomsRefresh}
+                            setModal={setModal}
+                        />
                     </div>
                 </MyRoomsContext.Provider>
             )}

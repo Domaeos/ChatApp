@@ -18,7 +18,6 @@ class Room extends Model
     ];
 
     public function users() {
-        // return $this->hasManyThrough(User::class, Member::class, 'room_id', 'id');
         return $this->belongsToMany(User::class);
     }
 

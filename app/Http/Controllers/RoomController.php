@@ -90,11 +90,11 @@ class RoomController extends Controller
     public function join(Request $request) {
     try {
         $joinId = $request->input('roomID');
-        $room = Room::select('name')->find($joinId);
-
+        $room = Room::find($joinId);
+        
         // Ensure room isnt private
         // ---- 
-
+        
         // Check user hasnt already joined
         if($request->user()->rooms()->find($joinId)) {
             return response("Already a member of this room", 400);
@@ -102,8 +102,7 @@ class RoomController extends Controller
         $room->users()->attach($request->user()->id);
         return response("Successfully joined: ".$room->name, 200);
     } catch (Exception $e) {
-        error_log($e);
-        return response("Error joining room", 500);
+        return response($e, 500);
     }
     }
     
