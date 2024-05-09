@@ -23,6 +23,7 @@
         "-": "^0.0.1",
         "bootstrap": "^5.3.3",
         "dayjs": "^1.11.10",
+        "generate-unique-id": "^2.0.3",
         "laravel-echo": "^1.16.1",
         "pusher": "^5.2.0",
         "pusher-js": "^8.4.0-rc2",

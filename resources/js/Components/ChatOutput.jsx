@@ -4,6 +4,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
+import generateUniqueId from "generate-unique-id";
 
 dayjs.extend(relativeTime);
 
@@ -39,8 +40,8 @@ export default function ChatOutput({ currentRoom, roomNumberToRefresh }) {
                 {messages?.map((message, index) => {
                     return (
                         <div
+                            key={generateUniqueId()}
                             className="single-chat-message"
-                            key={message?.user.id + index}
                         >
                             <div className="single-chat-header">
                                 <div className="single-chat-author">

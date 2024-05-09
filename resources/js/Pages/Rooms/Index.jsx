@@ -24,8 +24,11 @@ export default function Index({ auth }) {
         if (auth.user) {
             axios
                 .get("/rooms/myrooms")
-                .then((res) => setMyRooms(res.data))
-                .catch((e) => console.log(e.response.data));
+                .then((res) => {
+                    setMyRooms(res.data);
+                    if (res.data.length) setCurrentRoom(res.data[0].id);
+                })
+                .catch((e) => console.log(e));
         }
     }, [roomsRefresh]);
 

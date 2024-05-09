@@ -34,7 +34,9 @@ body {
     grid-gap: 20px;
     grid-template-columns: 300px 1fr;
 }
-
+.single-member-dropdown {
+    width: 100% !important;
+}
 .side-bar {
     background-color: #212529;
 }

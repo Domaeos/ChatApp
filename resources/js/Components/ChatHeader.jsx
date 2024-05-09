@@ -2,15 +2,18 @@ import { Button } from "react-bootstrap";
 import { Offcanvas } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Members from "./Members";
 
 export default function ChatHeader({ room }) {
+    const [members, setMembers] = useState([]);
     const [showMembers, setShowMembers] = useState(false);
     useEffect(() => {
         if (room) {
             axios
                 .get(`/rooms/${room.id}/members`)
                 .then((res) => {
-                    // member list
+                    console.log(res.data);
+                    setMembers(res.data);
                 })
                 .catch((e) => console.log(e.response));
         }
@@ -34,8 +37,7 @@ export default function ChatHeader({ room }) {
                     <Offcanvas.Title>Members</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>
-                    Some text as placeholder. In real life you can have the
-                    elements you have chosen. Like, text, images, lists, etc.
+                    <Members members={members} />
                 </Offcanvas.Body>
             </Offcanvas>
         </div>

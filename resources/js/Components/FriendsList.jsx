@@ -6,7 +6,7 @@ export default function FriendsList() {
     return (
         <>
             {friends.map((x, i) => {
-                return <div>{i}</div>;
+                return <div key={i}>{i}</div>;
             })}
         </>
     );
