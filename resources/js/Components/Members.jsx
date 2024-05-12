@@ -7,24 +7,46 @@ export default function Members({ members }) {
         auth: { user },
     } = usePage().props;
 
-    function handleActions() {}
+    function handleSelect(key) {
+        const [action, id] = key.split("-");
+        if (action === "add") {
+            console.log("adding" + id);
+        }
+    }
     return (
         <>
-            {members?.map((member, i) => {
-                return (
-                    <Dropdown key={generateUniqueId()}>
-                        <Dropdown.Toggle disabled={user.id === member.id}>
-                            {member.name}
-                        </Dropdown.Toggle>
+            <div className="room-info-grid">
+                <div className="members-info-section">
+                    {members?.map((member) => {
+                        return (
+                            <Dropdown
+                                onSelect={handleSelect}
+                                key={generateUniqueId()}
+                            >
+                                <Dropdown.Toggle
+                                    disabled={user.id === member.id}
+                                >
+                                    {member.name}
+                                </Dropdown.Toggle>
 
-                        <Dropdown.Menu className="single-member-dropdown">
-                            <Dropdown.Item eventKey="1">
-                                Add friend
-                            </Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
-                );
-            })}
+                                <Dropdown.Menu className="single-member-dropdown">
+                                    <Dropdown.Item
+                                        eventKey={`add-${member.id}`}
+                                    >
+                                        Add friend
+                                    </Dropdown.Item>
+                                    <Dropdown.Item
+                                        eventKey={`block-${member.id}`}
+                                    >
+                                        Block
+                                    </Dropdown.Item>
+                                </Dropdown.Menu>
+                            </Dropdown>
+                        );
+                    })}
+                </div>
+                <div className="room-actions-section"></div>
+            </div>
         </>
     );
 }

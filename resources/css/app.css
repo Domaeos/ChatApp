@@ -40,7 +40,10 @@ body {
 .side-bar {
     background-color: #212529;
 }
-
+.room-info-grid {
+    display: grid;
+    height: 100%;
+}
 .side-grid-header {
     display: grid;
     grid-template-columns: 1fr auto;
