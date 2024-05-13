@@ -63,6 +63,7 @@ export default function ChatHeader({ room }) {
             </Offcanvas>
             <LeaveModal
                 room={room}
+                setShowMembers={setShowMembers}
                 showLeaveModal={showLeaveModal}
                 setShowLeaveModal={setShowLeaveModal}
             />

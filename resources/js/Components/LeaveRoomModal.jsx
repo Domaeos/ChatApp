@@ -8,12 +8,14 @@ export default function LeaveModal({
     setShowLeaveModal,
     showLeaveModal,
     room,
+    setShowMembers,
 }) {
     const handleClose = () => setShowLeaveModal(false);
     const { setRoomsRefresh } = useContext(RefreshContext);
 
     function handleLeave() {
         setShowLeaveModal(false);
+        setShowMembers(false);
         if (room.id) {
             const leavePromise = axios
                 .post("rooms/leave", {
