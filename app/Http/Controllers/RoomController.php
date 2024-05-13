@@ -115,10 +115,13 @@ class RoomController extends Controller
      */
     public function update(Request $request, Room $room)
     {
-        //
     }
 
-    /**$request->user()->rooms()
+    public function leave(Request $request) {
+        $request->user()->rooms()->detach($request->roomID);
+        return response("left", 200);
+    }
+    /*
      * Remove the specified resource from storage.
      */
     public function destroy(Room $room)

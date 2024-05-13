@@ -32,6 +32,11 @@ Route::get('rooms', [RoomController::class, 'all'])
 Route::post('rooms/join', [RoomController::class, 'join'])
 ->middleware(['auth', 'verified'])
 ->name('rooms.join');
+
+Route::post('rooms/leave', [RoomController::class, 'leave'])
+->middleware(['auth', 'verified', 'verifyMemberOfRoom'])
+->name('rooms.leave');
+
 Route::get('/', [RoomController::class, 'index'])->name('rooms.index');
 
 Route::get('/messages/{roomID}', [MessageController::class, 'getMessages'])

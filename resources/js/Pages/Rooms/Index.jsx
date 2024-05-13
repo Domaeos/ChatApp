@@ -11,12 +11,14 @@ import axios from "axios";
 import { createContext } from "react";
 
 export const MyRoomsContext = createContext([]);
+export const RefreshContext = createContext(false);
 
 export default function Index({ auth }) {
     const [modal, setModal] = useState({
         action: "",
         show: false,
     });
+
     const [roomsRefresh, setRoomsRefresh] = useState(false);
     const [myRooms, setMyRooms] = useState([]);
     const [currentRoom, setCurrentRoom] = useState(null);
@@ -40,27 +42,31 @@ export default function Index({ auth }) {
                 </Guest>
             )}
             {auth.user && (
-                <MyRoomsContext.Provider value={myRooms}>
-                    <div className="main-grid">
-                        <AuthenticatedLayout user={auth.user}>
-                            <Head title="Rooms" />
-                            <div className="room-grid">
-                                <ChannelList
-                                    setModal={setModal}
-                                    setCurrentRoom={setCurrentRoom}
-                                    user={auth.user}
-                                />
-                                <ChatRoom currentRoom={currentRoom} />
-                            </div>
-                            <Toaster />
-                        </AuthenticatedLayout>
-                        <UserModal
-                            modal={modal}
-                            setRoomsRefresh={setRoomsRefresh}
-                            setModal={setModal}
-                        />
-                    </div>
-                </MyRoomsContext.Provider>
+                <RefreshContext.Provider
+                    value={{ roomsRefresh, setRoomsRefresh }}
+                >
+                    <MyRoomsContext.Provider value={myRooms}>
+                        <div className="main-grid">
+                            <AuthenticatedLayout user={auth.user}>
+                                <Head title="Rooms" />
+                                <div className="room-grid">
+                                    <ChannelList
+                                        setModal={setModal}
+                                        setCurrentRoom={setCurrentRoom}
+                                        user={auth.user}
+                                    />
+                                    <ChatRoom currentRoom={currentRoom} />
+                                </div>
+                                <Toaster />
+                            </AuthenticatedLayout>
+                            <UserModal
+                                modal={modal}
+                                setRoomsRefresh={setRoomsRefresh}
+                                setModal={setModal}
+                            />
+                        </div>
+                    </MyRoomsContext.Provider>
+                </RefreshContext.Provider>
             )}
         </>
     );

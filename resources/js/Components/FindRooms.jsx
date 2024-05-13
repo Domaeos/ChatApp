@@ -20,11 +20,11 @@ export default function FindRooms({ setRoomsRefresh }) {
         axios
             .post("/rooms/join", { roomID: id })
             .then((res) => {
-                console.log(res);
                 setRoomsRefresh((room) => !room);
                 setJoinID(null);
                 setJoining(false);
                 setSearchTerm("");
+                toast.success("Joined the room");
             })
             .catch((e) => console.log(e));
     }
